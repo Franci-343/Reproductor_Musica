@@ -1,6 +1,5 @@
 // ESTE ARCHIVO HA SIDO DESHABILITADO
 // Para JavaFX 25+, es mejor usar VM arguments en lugar de module-info.java
-// Ver SOLUCION_JAVAFX.md para más detalles
 
 /*
 module Reproductor_Musica {

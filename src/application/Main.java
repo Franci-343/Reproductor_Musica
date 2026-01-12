@@ -17,6 +17,12 @@ public class Main extends Application {
 			Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
 			Scene scene = new Scene(root);
 			
+			// Add CSS stylesheet
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			
+			// Set scene fill to match gradient background
+			scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
+			
 			// Load window icon from src/resources/Duke256.png (classpath: /resources/Duke256.png)
 			URL iconUrl = getClass().getResource("/resources/Duke256.png");
 			if (iconUrl != null) {
@@ -26,7 +32,7 @@ public class Main extends Application {
 			}
 			
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Reproductor de Música - Básico");
+			primaryStage.setTitle("Reproductor de Música - Glassmorphism");
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();

@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
+import javafx.scene.canvas.Canvas;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -74,10 +75,14 @@ public class Controller implements Initializable {
     @FXML
     private Label lblVolume;
 
+    @FXML
+    private Canvas visualizerCanvas;
+
     private final ObservableList<MusicItem> data = FXCollections.observableArrayList();
     private MusicItem selectedSong = null;
     private MediaPlayer mediaPlayer = null;
     private boolean isPlaying = false;
+    private AudioVisualizer audioVisualizer = null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -127,6 +132,44 @@ public class Controller implements Initializable {
             lblVolume.setText(String.format("%.0f%%", volumeSlider.getValue() * 100));
         }
 
+        // Set up interactive progress bar (click to seek)
+        if (progressBar != null) {
+            progressBar.setOnMouseClicked(event -> {
+                if (mediaPlayer != null && selectedSong != null) {
+                    // Calculate the percentage clicked
+                    double mouseX = event.getX();
+                    double width = progressBar.getWidth();
+                    double percentage = mouseX / width;
+                    
+                    // Clamp between 0 and 1
+                    percentage = Math.max(0, Math.min(1, percentage));
+                    
+                    // Seek to that position
+                    Duration totalDuration = mediaPlayer.getTotalDuration();
+                    if (totalDuration != null && !totalDuration.isUnknown()) {
+                        Duration seekTime = totalDuration.multiply(percentage);
+                        mediaPlayer.seek(seekTime);
+                        System.out.println("Seeking to: " + formatDuration(seekTime) + " / " + formatDuration(totalDuration));
+                    }
+                }
+            });
+        }
+
+        // Initialize audio visualizer
+        if (visualizerCanvas != null) {
+            audioVisualizer = new AudioVisualizer(
+                visualizerCanvas.getWidth(), 
+                visualizerCanvas.getHeight()
+            );
+            // Replace the FXML canvas with our custom AudioVisualizer
+            if (visualizerCanvas.getParent() instanceof javafx.scene.layout.Pane) {
+                javafx.scene.layout.Pane parent = (javafx.scene.layout.Pane) visualizerCanvas.getParent();
+                int index = parent.getChildren().indexOf(visualizerCanvas);
+                parent.getChildren().remove(visualizerCanvas);
+                parent.getChildren().add(index, audioVisualizer);
+            }
+        }
+
         // Load music in background
         loadMusicAsync();
     }
@@ -171,6 +214,11 @@ public class Controller implements Initializable {
                 // Set initial volume from slider
                 if (volumeSlider != null) {
                     mediaPlayer.setVolume(volumeSlider.getValue());
+                }
+                
+                // Connect audio visualizer
+                if (audioVisualizer != null) {
+                    audioVisualizer.attachMediaPlayer(mediaPlayer);
                 }
                 
                 // Set up event handlers
@@ -233,6 +281,9 @@ public class Controller implements Initializable {
         if (mediaPlayer != null && isPlaying) {
             mediaPlayer.pause();
             isPlaying = false;
+            if (audioVisualizer != null) {
+                audioVisualizer.setPlaying(false);
+            }
             System.out.println("Paused: " + selectedSong.getName());
         }
     }
