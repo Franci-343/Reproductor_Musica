@@ -12,13 +12,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,6 +69,8 @@ public class Controller implements Initializable {
 
     private final ObservableList<MusicItem> data = FXCollections.observableArrayList();
     private MusicItem selectedSong = null;
+    private MediaPlayer mediaPlayer = null;
+    private boolean isPlaying = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -82,9 +84,15 @@ public class Controller implements Initializable {
         // Listen for selection changes
         musicTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
+                boolean wasPlaying = isPlaying;
                 selectedSong = newSelection;
                 lblCurrentSong.setText(newSelection.getName());
                 enablePlaybackControls(true);
+                
+                // Auto-play new song if music was already playing
+                if (wasPlaying) {
+                    handlePlay();
+                }
             } else {
                 selectedSong = null;
                 lblCurrentSong.setText("Selecciona una canción");
@@ -113,27 +121,102 @@ public class Controller implements Initializable {
 
     private void handlePlay() {
         if (selectedSong != null) {
-            System.out.println("Playing: " + selectedSong.getName());
-            // TODO: Implement actual playback logic here
-            lblCurrentSong.setText("▶ " + selectedSong.getName());
+            if (mediaPlayer != null && isPlaying) {
+                // Already playing, restart from beginning
+                mediaPlayer.stop();
+                mediaPlayer.play();
+                return;
+            }
+            
+            if (mediaPlayer != null && !isPlaying) {
+                // Resume if paused
+                mediaPlayer.play();
+                isPlaying = true;
+                lblCurrentSong.setText("▶ " + selectedSong.getName());
+                return;
+            }
+            
+            // Create new MediaPlayer
+            try {
+                File musicFile = new File(selectedSong.getPath());
+                Media media = new Media(musicFile.toURI().toString());
+                
+                // Dispose old player if exists
+                if (mediaPlayer != null) {
+                    mediaPlayer.dispose();
+                }
+                
+                mediaPlayer = new MediaPlayer(media);
+                
+                // Set up event handlers
+                mediaPlayer.setOnReady(() -> {
+                    Duration total = mediaPlayer.getTotalDuration();
+                    updateTimeLabel(Duration.ZERO, total);
+                });
+                
+                mediaPlayer.setOnPlaying(() -> {
+                    isPlaying = true;
+                    lblCurrentSong.setText("▶ " + selectedSong.getName());
+                });
+                
+                mediaPlayer.setOnPaused(() -> {
+                    isPlaying = false;
+                    lblCurrentSong.setText("⏸ " + selectedSong.getName());
+                });
+                
+                mediaPlayer.setOnStopped(() -> {
+                    isPlaying = false;
+                    lblCurrentSong.setText(selectedSong.getName());
+                    progressBar.setProgress(0);
+                });
+                
+                mediaPlayer.setOnEndOfMedia(() -> {
+                    // Auto play next song
+                    handleNext();
+                });
+                
+                mediaPlayer.setOnError(() -> {
+                    System.err.println("Media error: " + mediaPlayer.getError().getMessage());
+                    lblCurrentSong.setText("Error: " + selectedSong.getName());
+                });
+                
+                // Update progress bar and time label
+                mediaPlayer.currentTimeProperty().addListener((obs, oldTime, newTime) -> {
+                    if (!mediaPlayer.getStatus().equals(MediaPlayer.Status.UNKNOWN)) {
+                        Duration total = mediaPlayer.getTotalDuration();
+                        if (total != null && total.greaterThan(Duration.ZERO)) {
+                            progressBar.setProgress(newTime.toMillis() / total.toMillis());
+                            updateTimeLabel(newTime, total);
+                        }
+                    }
+                });
+                
+                // Start playback
+                mediaPlayer.play();
+                isPlaying = true;
+                System.out.println("Playing: " + selectedSong.getName());
+                
+            } catch (Exception e) {
+                System.err.println("Error playing file: " + e.getMessage());
+                e.printStackTrace();
+                lblCurrentSong.setText("Error al reproducir: " + selectedSong.getName());
+            }
         }
     }
 
     private void handlePause() {
-        if (selectedSong != null) {
+        if (mediaPlayer != null && isPlaying) {
+            mediaPlayer.pause();
+            isPlaying = false;
             System.out.println("Paused: " + selectedSong.getName());
-            // TODO: Implement actual pause logic here
-            lblCurrentSong.setText("⏸ " + selectedSong.getName());
         }
     }
 
     private void handleStop() {
-        if (selectedSong != null) {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            isPlaying = false;
             System.out.println("Stopped: " + selectedSong.getName());
-            // TODO: Implement actual stop logic here
-            lblCurrentSong.setText(selectedSong.getName());
-            progressBar.setProgress(0);
-            lblTime.setText("00:00 / 00:00");
         }
     }
 
@@ -153,6 +236,22 @@ public class Controller implements Initializable {
             musicTable.scrollTo(currentIndex + 1);
             System.out.println("Next song");
         }
+    }
+
+    private void updateTimeLabel(Duration current, Duration total) {
+        if (current != null && total != null && lblTime != null) {
+            String currentStr = formatDuration(current);
+            String totalStr = formatDuration(total);
+            lblTime.setText(currentStr + " / " + totalStr);
+        }
+    }
+
+    private String formatDuration(Duration duration) {
+        if (duration == null) return "00:00";
+        int seconds = (int) duration.toSeconds();
+        int minutes = seconds / 60;
+        seconds = seconds % 60;
+        return String.format("%02d:%02d", minutes, seconds);
     }
 
     private void loadMusicAsync() {
