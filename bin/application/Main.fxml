@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" />
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
+    <left>
+        <VBox spacing="6.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/25">
+            <children>
+                <Label text="Canciones" />
+                <TableView fx:id="musicTable" prefHeight="400.0" prefWidth="300.0">
+                    <columns>
+                        <TableColumn fx:id="colName" text="Nombre" prefWidth="150.0" />
+                        <TableColumn fx:id="colPath" text="Ruta" prefWidth="100.0" />
+                        <TableColumn fx:id="colSize" text="Tamaño (bytes)" prefWidth="50.0" />
+                    </columns>
+                    <placeholder>
+                        <Label text="No se encontraron canciones." />
+                    </placeholder>
+                </TableView>
+            </children>
+        </VBox>
+    </left>
+    <center>
+        <VBox alignment="CENTER" spacing="20.0" style="-fx-padding: 20;">
+            <children>
+                <Label fx:id="lblCurrentSong" text="Selecciona una canción" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+                <HBox alignment="CENTER" spacing="10.0">
+                    <children>
+                        <Button fx:id="btnPrevious" text="⏮ Anterior" disable="true" />
+                        <Button fx:id="btnPlay" text="▶ Play" disable="true" />
+                        <Button fx:id="btnPause" text="⏸ Pause" disable="true" />
+                        <Button fx:id="btnStop" text="⏹ Stop" disable="true" />
+                        <Button fx:id="btnNext" text="⏭ Siguiente" disable="true" />
+                    </children>
+                </HBox>
+                <ProgressBar fx:id="progressBar" prefWidth="300.0" progress="0" />
+                <Label fx:id="lblTime" text="00:00 / 00:00" />
+            </children>
+        </VBox>
+    </center>
+</BorderPane>
