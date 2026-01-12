@@ -12,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Slider;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -67,6 +68,12 @@ public class Controller implements Initializable {
     @FXML
     private Label lblTime;
 
+    @FXML
+    private Slider volumeSlider;
+
+    @FXML
+    private Label lblVolume;
+
     private final ObservableList<MusicItem> data = FXCollections.observableArrayList();
     private MusicItem selectedSong = null;
     private MediaPlayer mediaPlayer = null;
@@ -106,6 +113,19 @@ public class Controller implements Initializable {
         btnStop.setOnAction(e -> handleStop());
         btnPrevious.setOnAction(e -> handlePrevious());
         btnNext.setOnAction(e -> handleNext());
+
+        // Set up volume slider
+        if (volumeSlider != null && lblVolume != null) {
+            volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+                double volume = newVal.doubleValue();
+                lblVolume.setText(String.format("%.0f%%", volume * 100));
+                if (mediaPlayer != null) {
+                    mediaPlayer.setVolume(volume);
+                }
+            });
+            // Initialize volume label
+            lblVolume.setText(String.format("%.0f%%", volumeSlider.getValue() * 100));
+        }
 
         // Load music in background
         loadMusicAsync();
@@ -147,6 +167,11 @@ public class Controller implements Initializable {
                 }
                 
                 mediaPlayer = new MediaPlayer(media);
+                
+                // Set initial volume from slider
+                if (volumeSlider != null) {
+                    mediaPlayer.setVolume(volumeSlider.getValue());
+                }
                 
                 // Set up event handlers
                 mediaPlayer.setOnReady(() -> {
