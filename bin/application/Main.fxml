@@ -14,6 +14,21 @@
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="border-pane" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
+    <top>
+        <HBox fx:id="titleBar" alignment="CENTER_LEFT" prefHeight="40.0" spacing="10.0" style="-fx-padding: 10 15 10 15;" styleClass="title-bar">
+            <children>
+                <ImageView fitHeight="24.0" fitWidth="24.0" preserveRatio="true" pickOnBounds="true">
+                    <image>
+                        <Image url="@/resources/Duke256.png" />
+                    </image>
+                </ImageView>
+                <Label text="Reproductor de Música" styleClass="title-label" HBox.hgrow="ALWAYS" />
+                <Button fx:id="btnMinimize" text="─" prefWidth="40.0" prefHeight="30.0" styleClass="window-button" />
+                <Button fx:id="btnMaximize" text="□" prefWidth="40.0" prefHeight="30.0" styleClass="window-button" />
+                <Button fx:id="btnClose" text="✕" prefWidth="40.0" prefHeight="30.0" styleClass="window-button, close-button" />
+            </children>
+        </HBox>
+    </top>
     <left>
         <VBox prefWidth="400.0" spacing="6.0" style="-fx-padding: 10;" xmlns="http://javafx.com/javafx/25">
             <children>

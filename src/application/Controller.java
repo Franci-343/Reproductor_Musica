@@ -14,6 +14,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -78,6 +80,18 @@ public class Controller implements Initializable {
     @FXML
     private Canvas visualizerCanvas;
 
+    @FXML
+    private HBox titleBar;
+
+    @FXML
+    private Button btnMinimize;
+
+    @FXML
+    private Button btnMaximize;
+
+    @FXML
+    private Button btnClose;
+
     private final ObservableList<MusicItem> data = FXCollections.observableArrayList();
     private MusicItem selectedSong = null;
     private MediaPlayer mediaPlayer = null;
@@ -92,6 +106,9 @@ public class Controller implements Initializable {
         colSize.setCellValueFactory(new PropertyValueFactory<>("size"));
 
         musicTable.setItems(data);
+
+        // Set up window controls (minimize, maximize, close)
+        setupWindowControls();
 
         // Listen for selection changes
         musicTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -360,6 +377,68 @@ public class Controller implements Initializable {
         Thread th = new Thread(task, "music-finder");
         th.setDaemon(true);
         th.start();
+    }
+
+    /**
+     * Set up custom window controls for undecorated window
+     */
+    private void setupWindowControls() {
+        if (titleBar == null) return;
+        
+        // Variables for dragging
+        final double[] xOffset = {0};
+        final double[] yOffset = {0};
+        
+        // Make title bar draggable
+        titleBar.setOnMousePressed(event -> {
+            Stage stage = (Stage) titleBar.getScene().getWindow();
+            xOffset[0] = event.getSceneX();
+            yOffset[0] = event.getSceneY();
+        });
+        
+        titleBar.setOnMouseDragged(event -> {
+            Stage stage = (Stage) titleBar.getScene().getWindow();
+            stage.setX(event.getScreenX() - xOffset[0]);
+            stage.setY(event.getScreenY() - yOffset[0]);
+        });
+        
+        // Minimize button
+        if (btnMinimize != null) {
+            btnMinimize.setOnAction(e -> {
+                Stage stage = (Stage) btnMinimize.getScene().getWindow();
+                stage.setIconified(true);
+            });
+        }
+        
+        // Maximize/Restore button
+        if (btnMaximize != null) {
+            btnMaximize.setOnAction(e -> {
+                Stage stage = (Stage) btnMaximize.getScene().getWindow();
+                if (stage.isMaximized()) {
+                    stage.setMaximized(false);
+                    btnMaximize.setText("□");
+                } else {
+                    stage.setMaximized(true);
+                    btnMaximize.setText("❐");
+                }
+            });
+        }
+        
+        // Close button
+        if (btnClose != null) {
+            btnClose.setOnAction(e -> {
+                // Clean up resources
+                if (mediaPlayer != null) {
+                    mediaPlayer.dispose();
+                }
+                if (audioVisualizer != null) {
+                    audioVisualizer.dispose();
+                }
+                Stage stage = (Stage) btnClose.getScene().getWindow();
+                stage.close();
+                Platform.exit();
+            });
+        }
     }
 
     // Simple model for table rows

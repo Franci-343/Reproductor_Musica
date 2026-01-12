@@ -20,8 +20,11 @@ public class Main extends Application {
 			// Add CSS stylesheet
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
-			// Set scene fill to match gradient background
+			// Set scene fill to transparent for glassmorphism
 			scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
+			
+			// Make window undecorated for custom title bar
+			primaryStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
 			
 			// Load window icon from src/resources/Duke256.png (classpath: /resources/Duke256.png)
 			URL iconUrl = getClass().getResource("/resources/Duke256.png");

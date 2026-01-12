@@ -1,66 +1,131 @@
 /* ========================================
    GLASSMORPHISM MUSIC PLAYER STYLES
-   Windows 11 Color Palette
+   Authentic Glass Effect with Blur
    ======================================== */
 
 /* Root - Base background with gradient */
 .root {
-    -fx-background-color: linear-gradient(to bottom right, #0078D4 0%, #005A9E 100%);
+    -fx-background-color: linear-gradient(to bottom right, #667eea, #764ba2, #f093fb);
 }
 
-/* BorderPane - Main container glassmorphism effect */
+/* BorderPane - Main container with authentic glassmorphism */
 .border-pane {
-    -fx-background-color: rgba(30, 30, 30, 0.75);
+    -fx-background-color: rgba(255, 255, 255, 0.18);
     -fx-background-radius: 20;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 25, 0, 0, 10);
-    -fx-border-color: rgba(255, 255, 255, 0.15);
-    -fx-border-width: 1.5;
+    -fx-border-color: rgba(255, 255, 255, 0.3);
+    -fx-border-width: 1;
     -fx-border-radius: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 32, 0, 0, 8),
+                innershadow(gaussian, rgba(255, 255, 255, 0.5), 1, 1, 0, 1),
+                innershadow(gaussian, rgba(255, 255, 255, 0.1), 1, 1, 0, -1);
+}
+
+/* ========================================
+   CUSTOM TITLE BAR - Glassmorphism
+   ======================================== */
+.title-bar {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-background-radius: 20 20 0 0;
+    -fx-border-color: transparent transparent rgba(255, 255, 255, 0.2) transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-effect: innershadow(gaussian, rgba(255, 255, 255, 0.4), 1, 1, 0, 0.5);
+}
+
+.title-label {
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 3, 0, 0, 1);
+}
+
+/* Window Control Buttons */
+.window-button {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 8;
+    -fx-padding: 5 10 5 10;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-border-color: rgba(255, 255, 255, 0.3);
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 8, 0, 0, 2),
+                innershadow(gaussian, rgba(255, 255, 255, 0.3), 1, 1, 0, 0.5);
+}
+
+.window-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.25);
+    -fx-border-color: rgba(255, 255, 255, 0.5);
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.3), 12, 0, 0, 0),
+                innershadow(gaussian, rgba(255, 255, 255, 0.4), 2, 1, 0, 0.5);
+}
+
+.window-button:pressed {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0.5, 0, 2);
+}
+
+/* Close button - special red hover */
+.close-button:hover {
+    -fx-background-color: rgba(232, 17, 35, 0.8);
+    -fx-border-color: rgba(255, 255, 255, 0.5);
+    -fx-effect: dropshadow(gaussian, rgba(232, 17, 35, 0.6), 16, 0, 0, 0),
+                innershadow(gaussian, rgba(255, 255, 255, 0.3), 2, 1, 0, 0);
+}
+
+.close-button:pressed {
+    -fx-background-color: rgba(194, 14, 29, 0.9);
 }
 
 /* VBox containers - Glass panels */
 .vbox {
-    -fx-background-color: rgba(45, 45, 45, 0.6);
+    -fx-background-color: rgba(255, 255, 255, 0.13);
     -fx-background-radius: 15;
-    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-color: rgba(255, 255, 255, 0.2);
     -fx-border-width: 1;
     -fx-border-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 16, 0, 0, 4),
+                innershadow(gaussian, rgba(255, 255, 255, 0.4), 1, 1, 0, 0.5);
 }
 
-/* ========================================
-   TABLE VIEW - Windows 11 Style
-   ======================================== */
+/* TableView - Glass effect for tables */
 .table-view {
-    -fx-background-color: rgba(32, 32, 32, 0.85);
+    -fx-background-color: rgba(255, 255, 255, 0.18);
     -fx-background-radius: 15;
-    -fx-border-color: rgba(0, 120, 212, 0.4);
-    -fx-border-width: 1.5;
+    -fx-border-color: rgba(255, 255, 255, 0.3);
+    -fx-border-width: 1;
     -fx-border-radius: 15;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 15, 0, 0, 5);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 32, 0, 0, 8),
+                innershadow(gaussian, rgba(255, 255, 255, 0.5), 1, 1, 0, 1),
+                innershadow(gaussian, rgba(255, 255, 255, 0.1), 1, 1, 0, -1);
 }
 
 .table-view .column-header-background {
-    -fx-background-color: rgba(0, 120, 212, 0.3);
+    -fx-background-color: rgba(255, 255, 255, 0.2);
     -fx-background-radius: 15 15 0 0;
+    -fx-effect: innershadow(gaussian, rgba(255, 255, 255, 0.3), 1, 1, 0, 0.5);
 }
 
 .table-view .column-header {
     -fx-background-color: transparent;
-    -fx-border-color: rgba(0, 120, 212, 0.3);
-    -fx-border-width: 0 1 2 0;
+    -fx-border-color: rgba(255, 255, 255, 0.2);
+    -fx-border-width: 0 1 1 0;
     -fx-text-fill: #FFFFFF;
     -fx-font-weight: bold;
     -fx-font-size: 14px;
     -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 2, 0, 0, 1);
 }
 
 .table-view .table-cell {
-    -fx-text-fill: #E8E8E8;
+    -fx-text-fill: rgba(255, 255, 255, 0.95);
     -fx-background-color: transparent;
-    -fx-border-color: rgba(255, 255, 255, 0.05);
+    -fx-border-color: rgba(255, 255, 255, 0.08);
     -fx-border-width: 0 0 1 0;
     -fx-padding: 10;
     -fx-font-size: 13px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 1, 0, 0, 0.5);
 }
 
 .table-row-cell {
@@ -68,155 +133,175 @@
 }
 
 .table-row-cell:hover {
-    -fx-background-color: rgba(0, 120, 212, 0.25);
+    -fx-background-color: rgba(255, 255, 255, 0.2);
     -fx-background-radius: 8;
+    -fx-effect: innershadow(gaussian, rgba(255, 255, 255, 0.3), 2, 0, 0, 0);
 }
 
 .table-row-cell:selected {
-    -fx-background-color: rgba(0, 120, 212, 0.5);
+    -fx-background-color: rgba(255, 255, 255, 0.3);
     -fx-background-radius: 8;
+    -fx-effect: innershadow(gaussian, rgba(255, 255, 255, 0.5), 4, 0, 0, 0),
+                dropshadow(gaussian, rgba(255, 255, 255, 0.3), 8, 0, 0, 0);
 }
 
 .table-row-cell:selected .table-cell {
     -fx-text-fill: #FFFFFF;
+    -fx-font-weight: 600;
 }
 
 .table-view .placeholder .label {
-    -fx-text-fill: rgba(255, 255, 255, 0.6);
+    -fx-text-fill: rgba(255, 255, 255, 0.7);
     -fx-font-size: 14px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 2, 0, 0, 1);
 }
 
 /* ========================================
-   LABELS - Windows 11 Typography
+   LABELS - Glass Typography
    ======================================== */
 .label {
     -fx-text-fill: #FFFFFF;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 3, 0, 0, 1);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 3, 0, 0, 1);
     -fx-font-family: "Segoe UI", "Segoe UI Variable", system-ui;
 }
 
-/* Current Song Label - Highlight */
+/* Current Song Label - Highlight with glow */
 #lblCurrentSong {
     -fx-text-fill: #FFFFFF;
-    -fx-effect: dropshadow(gaussian, rgba(0, 120, 212, 0.8), 8, 0, 0, 0);
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.6), 12, 0.5, 0, 0),
+                dropshadow(gaussian, rgba(0, 0, 0, 0.4), 4, 0, 0, 2);
     -fx-font-size: 18px;
     -fx-font-weight: bold;
 }
 
 /* ========================================
-   BUTTONS - Windows 11 Fluent Design
+   BUTTONS - Glass Morphism Buttons
    ======================================== */
 .button {
-    -fx-background-color: rgba(0, 120, 212, 0.8);
+    -fx-background-color: rgba(255, 255, 255, 0.25);
     -fx-text-fill: #FFFFFF;
-    -fx-background-radius: 8;
+    -fx-background-radius: 12;
     -fx-padding: 12 24 12 24;
     -fx-font-size: 14px;
     -fx-font-weight: 600;
-    -fx-border-color: rgba(255, 255, 255, 0.2);
+    -fx-border-color: rgba(255, 255, 255, 0.4);
     -fx-border-width: 1;
-    -fx-border-radius: 8;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 4);
+    -fx-border-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 16, 0, 0, 4),
+                innershadow(gaussian, rgba(255, 255, 255, 0.5), 1, 1, 0, 1),
+                innershadow(gaussian, rgba(255, 255, 255, 0.1), 1, 1, 0, -1);
     -fx-cursor: hand;
     -fx-font-family: "Segoe UI", system-ui;
 }
 
 .button:hover {
-    -fx-background-color: rgba(0, 120, 212, 0.95);
-    -fx-border-color: rgba(255, 255, 255, 0.3);
+    -fx-background-color: rgba(255, 255, 255, 0.3);
+    -fx-border-color: rgba(255, 255, 255, 0.6);
     -fx-scale-x: 1.05;
     -fx-scale-y: 1.05;
-    -fx-effect: dropshadow(gaussian, rgba(0, 120, 212, 0.6), 15, 0, 0, 5);
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.3), 20, 0, 0, 0),
+                dropshadow(gaussian, rgba(0, 0, 0, 0.2), 20, 0, 0, 6),
+                innershadow(gaussian, rgba(255, 255, 255, 0.6), 2, 1, 0, 1);
 }
 
 .button:pressed {
-    -fx-background-color: rgba(0, 90, 158, 0.9);
+    -fx-background-color: rgba(255, 255, 255, 0.15);
     -fx-scale-x: 0.98;
     -fx-scale-y: 0.98;
+    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0.5, 0, 2);
 }
 
 .button:disabled {
-    -fx-background-color: rgba(60, 60, 60, 0.5);
+    -fx-background-color: rgba(255, 255, 255, 0.05);
     -fx-text-fill: rgba(255, 255, 255, 0.3);
     -fx-opacity: 0.5;
     -fx-cursor: default;
 }
 
 /* ========================================
-   PROGRESS BAR - Windows 11 Accent
+   PROGRESS BAR - Glass Progress
    ======================================== */
 .progress-bar {
-    -fx-background-color: rgba(45, 45, 45, 0.8);
-    -fx-background-radius: 12;
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-background-radius: 15;
     -fx-padding: 4;
-    -fx-border-color: rgba(0, 120, 212, 0.4);
-    -fx-border-width: 1.5;
-    -fx-border-radius: 12;
+    -fx-border-color: rgba(255, 255, 255, 0.3);
+    -fx-border-width: 1;
+    -fx-border-radius: 15;
     -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 16, 0, 0, 4),
+                innershadow(gaussian, rgba(0, 0, 0, 0.2), 2, 0.5, 0, 1);
 }
 
 .progress-bar > .track {
-    -fx-background-color: rgba(80, 80, 80, 0.6);
-    -fx-background-radius: 10;
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-background-radius: 12;
     -fx-background-insets: 0;
 }
 
 .progress-bar > .bar {
     -fx-background-color: linear-gradient(to right, 
-        #0078D4, 
-        #00BCF2);
-    -fx-background-radius: 10;
+        rgba(255, 255, 255, 0.6), 
+        rgba(255, 255, 255, 0.9));
+    -fx-background-radius: 12;
     -fx-background-insets: 0;
-    -fx-padding: 7;
-    -fx-effect: dropshadow(gaussian, rgba(0, 120, 212, 0.8), 12, 0, 0, 0);
+    -fx-padding: 6;
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.6), 16, 0.5, 0, 0),
+                innershadow(gaussian, rgba(255, 255, 255, 0.5), 1, 1, 0, 0);
 }
 
 .progress-bar:hover > .track {
-    -fx-background-color: rgba(100, 100, 100, 0.7);
+    -fx-background-color: rgba(255, 255, 255, 0.2);
 }
 
 .progress-bar:hover > .bar {
     -fx-background-color: linear-gradient(to right, 
-        #0086F0, 
-        #00D4FF);
-    -fx-effect: dropshadow(gaussian, rgba(0, 188, 242, 1), 15, 0, 0, 0);
+        rgba(255, 255, 255, 0.7), 
+        rgba(255, 255, 255, 1));
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.8), 20, 0.6, 0, 0),
+                innershadow(gaussian, rgba(255, 255, 255, 0.6), 2, 1, 0, 0);
 }
 
 /* ========================================
-   SLIDER (Volume) - Windows 11 Style
+   SLIDER (Volume) - Glass Slider
    ======================================== */
 .slider {
     -fx-background-color: transparent;
 }
 
 .slider .track {
-    -fx-background-color: rgba(80, 80, 80, 0.7);
-    -fx-background-radius: 6;
-    -fx-border-color: rgba(0, 120, 212, 0.3);
+    -fx-background-color: rgba(255, 255, 255, 0.25);
+    -fx-background-radius: 8;
+    -fx-border-color: rgba(255, 255, 255, 0.3);
     -fx-border-width: 1;
-    -fx-border-radius: 6;
+    -fx-border-radius: 8;
+    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.2), 2, 0.5, 0, 1);
 }
 
 .slider .thumb {
-    -fx-background-color: #0078D4;
-    -fx-background-radius: 12;
+    -fx-background-color: rgba(255, 255, 255, 0.9);
+    -fx-background-radius: 14;
     -fx-padding: 12;
-    -fx-effect: dropshadow(gaussian, rgba(0, 120, 212, 0.6), 10, 0, 0, 3);
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.5), 12, 0.5, 0, 0),
+                dropshadow(gaussian, rgba(0, 0, 0, 0.2), 8, 0, 0, 3),
+                innershadow(gaussian, rgba(255, 255, 255, 0.6), 1, 1, 0, 1);
     -fx-cursor: hand;
-    -fx-border-color: #FFFFFF;
-    -fx-border-width: 2;
-    -fx-border-radius: 12;
+    -fx-border-color: rgba(255, 255, 255, 0.5);
+    -fx-border-width: 1.5;
+    -fx-border-radius: 14;
 }
 
 .slider .thumb:hover {
-    -fx-background-color: #00BCF2;
+    -fx-background-color: #FFFFFF;
     -fx-scale-x: 1.2;
     -fx-scale-y: 1.2;
-    -fx-effect: dropshadow(gaussian, rgba(0, 188, 242, 0.9), 15, 0, 0, 0);
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.8), 20, 0.7, 0, 0),
+                dropshadow(gaussian, rgba(0, 0, 0, 0.15), 12, 0, 0, 4),
+                innershadow(gaussian, rgba(255, 255, 255, 0.7), 2, 1, 0, 1);
 }
 
 .slider .thumb:pressed {
-    -fx-background-color: #005A9E;
+    -fx-background-color: rgba(255, 255, 255, 0.85);
     -fx-scale-x: 1.1;
     -fx-scale-y: 1.1;
 }
@@ -229,24 +314,30 @@
 }
 
 /* ========================================
-   SCROLLBAR - Windows 11 Modern
+   SCROLLBAR - Glass Scrollbar
    ======================================== */
 .scroll-bar {
-    -fx-background-color: rgba(45, 45, 45, 0.5);
+    -fx-background-color: rgba(255, 255, 255, 0.13);
     -fx-background-radius: 8;
 }
 
 .scroll-bar .thumb {
-    -fx-background-color: rgba(0, 120, 212, 0.6);
+    -fx-background-color: rgba(255, 255, 255, 0.3);
     -fx-background-radius: 8;
+    -fx-border-color: rgba(255, 255, 255, 0.4);
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.3), 6, 0, 0, 0),
+                innershadow(gaussian, rgba(255, 255, 255, 0.2), 1, 1, 0, 0);
 }
 
 .scroll-bar .thumb:hover {
-    -fx-background-color: rgba(0, 120, 212, 0.85);
+    -fx-background-color: rgba(255, 255, 255, 0.5);
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.5), 10, 0, 0, 0);
 }
 
 .scroll-bar .thumb:pressed {
-    -fx-background-color: rgba(0, 90, 158, 1);
+    -fx-background-color: rgba(255, 255, 255, 0.6);
 }
 
 .scroll-bar .increment-button,
@@ -269,10 +360,11 @@
 }
 
 /* ========================================
-   CANVAS (Audio Visualizer)
+   CANVAS (Audio Visualizer) - Glass effect
    ======================================== */
 .canvas {
-    -fx-effect: dropshadow(gaussian, rgba(0, 120, 212, 0.4), 15, 0, 0, 5);
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.2), 16, 0, 0, 0),
+                dropshadow(gaussian, rgba(0, 0, 0, 0.2), 12, 0, 0, 4);
 }
 
 /* ========================================
@@ -282,10 +374,20 @@
     -fx-text-fill: #FFFFFF;
     -fx-font-weight: bold;
     -fx-font-size: 14px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 3, 0, 0, 1);
 }
 
 #lblTime {
-    -fx-text-fill: #E8E8E8;
+    -fx-text-fill: rgba(255, 255, 255, 0.95);
     -fx-font-size: 14px;
     -fx-font-weight: 600;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 3, 0, 0, 1);
+}
+
+/* ========================================
+   IMAGE VIEW - Glass frame effect
+   ======================================== */
+.image-view {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 20, 0, 0, 8),
+                innershadow(gaussian, rgba(255, 255, 255, 0.3), 2, 0, 0, 0);
 }

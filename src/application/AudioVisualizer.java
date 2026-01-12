@@ -17,8 +17,9 @@ public class AudioVisualizer extends Canvas {
     
     private static final int NUM_BARS = 32;
     private static final double BAR_WIDTH_RATIO = 0.8;
-    private static final Color BAR_COLOR = Color.rgb(0, 200, 255);
-    private static final Color BAR_GRADIENT_COLOR = Color.rgb(0, 100, 200);
+    private static final Color BAR_COLOR = Color.rgb(255, 255, 255, 0.9);
+    private static final Color BAR_GRADIENT_COLOR = Color.rgb(255, 255, 255, 0.5);
+    private static final Color BACKGROUND_COLOR = Color.rgb(255, 255, 255, 0.08);
     
     private final float[] magnitudes;
     private final float[] phases;
@@ -118,8 +119,8 @@ public class AudioVisualizer extends Canvas {
         double width = getWidth();
         double height = getHeight();
         
-        // Clear background
-        gc.setFill(Color.rgb(20, 20, 30));
+        // Clear background with glassmorphism color
+        gc.setFill(BACKGROUND_COLOR);
         gc.fillRect(0, 0, width, height);
         
         // Calculate bar dimensions
