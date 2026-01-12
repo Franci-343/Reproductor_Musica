@@ -1,19 +1,32 @@
 package application;
 	
 import javafx.application.Application;
-import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import javafx.scene.image.Image;
+
+import java.net.URL;
 
 
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root,400,400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+			Scene scene = new Scene(root);
+			
+			// Load window icon from src/resources/Duke256.png (classpath: /resources/Duke256.png)
+			URL iconUrl = getClass().getResource("/resources/Duke256.png");
+			if (iconUrl != null) {
+				primaryStage.getIcons().add(new Image(iconUrl.toExternalForm()));
+			} else {
+				System.err.println("Icon resource not found: /resources/Duke256.png");
+			}
+			
 			primaryStage.setScene(scene);
+			primaryStage.setTitle("Reproductor de Música - Básico");
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
