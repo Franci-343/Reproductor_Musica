@@ -17,9 +17,9 @@ public class AudioVisualizer extends Canvas {
     
     private static final int NUM_BARS = 32;
     private static final double BAR_WIDTH_RATIO = 0.8;
-    private static final Color BAR_COLOR = Color.rgb(255, 255, 255, 0.9);
-    private static final Color BAR_GRADIENT_COLOR = Color.rgb(255, 255, 255, 0.5);
-    private static final Color BACKGROUND_COLOR = Color.rgb(255, 255, 255, 0.08);
+    private static final Color BAR_COLOR = Color.rgb(0, 120, 212, 0.95); // Windows 11 blue
+    private static final Color BAR_GRADIENT_COLOR = Color.rgb(102, 178, 255, 0.7); // Light blue
+    private static final Color BACKGROUND_COLOR = Color.rgb(230, 242, 255, 0.15); // Soft blue tint
     
     private final float[] magnitudes;
     private final float[] phases;
@@ -154,9 +154,9 @@ public class AudioVisualizer extends Canvas {
             
             double y = height - barHeight;
             
-            // Draw gradient bar
-            Color topColor = BAR_COLOR;
-            Color bottomColor = BAR_GRADIENT_COLOR;
+            // Draw gradient bar with blue colors
+            Color topColor = BAR_COLOR; // Darker blue at top
+            Color bottomColor = BAR_GRADIENT_COLOR; // Lighter blue at bottom
             
             // Create gradient effect manually
             int steps = (int) Math.max(1, barHeight / 2);
@@ -169,9 +169,17 @@ public class AudioVisualizer extends Canvas {
                 gc.fillRect(x, y + s * segmentHeight, barWidth, segmentHeight + 1);
             }
             
+            // Add a subtle glow effect on top of bars
+            if (barHeight > 5) {
+                gc.setGlobalAlpha(0.4);
+                gc.setFill(Color.rgb(153, 204, 255, 0.6)); // Light blue glow
+                gc.fillRect(x - 1, y - 2, barWidth + 2, 4);
+                gc.setGlobalAlpha(1.0);
+            }
+            
             // Draw reflection (subtle)
-            gc.setGlobalAlpha(0.2);
-            gc.setFill(BAR_GRADIENT_COLOR);
+            gc.setGlobalAlpha(0.15);
+            gc.setFill(Color.rgb(102, 178, 255, 0.5));
             double reflectionHeight = Math.min(barHeight * 0.3, height - barHeight - y);
             gc.fillRect(x, height - barHeight + barHeight, barWidth, reflectionHeight);
             gc.setGlobalAlpha(1.0);
