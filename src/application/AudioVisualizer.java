@@ -22,7 +22,6 @@ public class AudioVisualizer extends Canvas {
     private static final Color BACKGROUND_COLOR = Color.rgb(230, 242, 255, 0.15); // Soft blue tint
     
     private final float[] magnitudes;
-    private final float[] phases;
     private MediaPlayer mediaPlayer;
     private AnimationTimer animationTimer;
     private final Random random = new Random();
@@ -31,12 +30,10 @@ public class AudioVisualizer extends Canvas {
     public AudioVisualizer(double width, double height) {
         super(width, height);
         this.magnitudes = new float[NUM_BARS];
-        this.phases = new float[NUM_BARS];
         
         // Initialize with zeros
         for (int i = 0; i < NUM_BARS; i++) {
             magnitudes[i] = 0;
-            phases[i] = 0;
         }
         
         // Start animation timer for rendering
@@ -75,8 +72,6 @@ public class AudioVisualizer extends Canvas {
                     // Copy the spectrum data
                     System.arraycopy(newMagnitudes, 0, magnitudes, 0, 
                                    Math.min(newMagnitudes.length, NUM_BARS));
-                    System.arraycopy(newPhases, 0, phases, 0, 
-                                   Math.min(newPhases.length, NUM_BARS));
                     isPlaying = true;
                 }
             });

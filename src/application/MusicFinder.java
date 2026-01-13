@@ -2,7 +2,6 @@ package application;
 
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
-import java.nio.file.FileVisitor;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -81,7 +80,7 @@ public class MusicFinder {
         List<Path> found = new ArrayList<>();
         if (start == null || !Files.exists(start)) return found;
 
-        FileVisitor<Path> visitor = new SimpleFileVisitor<Path>() {
+        SimpleFileVisitor<Path> visitor = new SimpleFileVisitor<Path>() {
             private int filesCollected = 0;
 
             @Override

@@ -122,7 +122,7 @@ public class Controller implements Initializable {
         setupResponsiveBehavior();
 
         // Listen for selection changes
-        musicTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+        musicTable.getSelectionModel().selectedItemProperty().addListener((_, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 boolean wasPlaying = isPlaying;
                 selectedSong = newSelection;
@@ -141,15 +141,15 @@ public class Controller implements Initializable {
         });
 
         // Set up button actions
-        btnPlay.setOnAction(e -> handlePlay());
-        btnPause.setOnAction(e -> handlePause());
-        btnStop.setOnAction(e -> handleStop());
-        btnPrevious.setOnAction(e -> handlePrevious());
-        btnNext.setOnAction(e -> handleNext());
+        btnPlay.setOnAction(_ -> handlePlay());
+        btnPause.setOnAction(_ -> handlePause());
+        btnStop.setOnAction(_ -> handleStop());
+        btnPrevious.setOnAction(_ -> handlePrevious());
+        btnNext.setOnAction(_ -> handleNext());
 
         // Set up volume slider
         if (volumeSlider != null && lblVolume != null) {
-            volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            volumeSlider.valueProperty().addListener((_, oldVal, newVal) -> {
                 double volume = newVal.doubleValue();
                 lblVolume.setText(String.format("%.0f%%", volume * 100));
                 if (mediaPlayer != null) {
@@ -282,7 +282,7 @@ public class Controller implements Initializable {
                 });
                 
                 // Update progress bar and time label
-                mediaPlayer.currentTimeProperty().addListener((obs, oldTime, newTime) -> {
+                mediaPlayer.currentTimeProperty().addListener((_, oldTime, newTime) -> {
                     if (!mediaPlayer.getStatus().equals(MediaPlayer.Status.UNKNOWN)) {
                         Duration total = mediaPlayer.getTotalDuration();
                         if (total != null && total.greaterThan(Duration.ZERO)) {
@@ -374,13 +374,13 @@ public class Controller implements Initializable {
             }
         };
 
-        task.setOnSucceeded(e -> {
+        task.setOnSucceeded(_ -> {
             List<MusicItem> items = task.getValue();
             data.clear();
             data.addAll(items);
         });
 
-        task.setOnFailed(e -> {
+        task.setOnFailed(_ -> {
             Throwable ex = task.getException();
             ex.printStackTrace();
         });
@@ -404,12 +404,12 @@ public class Controller implements Initializable {
             updateResponsiveStyles(stage.getWidth(), stage.getHeight());
             
             // Listen for width changes
-            stage.widthProperty().addListener((obs, oldVal, newVal) -> {
+            stage.widthProperty().addListener((_, oldVal, newVal) -> {
                 updateResponsiveStyles(newVal.doubleValue(), stage.getHeight());
             });
             
             // Listen for height changes
-            stage.heightProperty().addListener((obs, oldVal, newVal) -> {
+            stage.heightProperty().addListener((_, oldVal, newVal) -> {
                 updateResponsiveStyles(stage.getWidth(), newVal.doubleValue());
             });
         });
@@ -456,7 +456,6 @@ public class Controller implements Initializable {
         
         // Make title bar draggable
         titleBar.setOnMousePressed(event -> {
-            Stage stage = (Stage) titleBar.getScene().getWindow();
             xOffset[0] = event.getSceneX();
             yOffset[0] = event.getSceneY();
         });
@@ -469,7 +468,7 @@ public class Controller implements Initializable {
         
         // Minimize button
         if (btnMinimize != null) {
-            btnMinimize.setOnAction(e -> {
+            btnMinimize.setOnAction(_ -> {
                 Stage stage = (Stage) btnMinimize.getScene().getWindow();
                 stage.setIconified(true);
             });
@@ -477,7 +476,7 @@ public class Controller implements Initializable {
         
         // Maximize/Restore button
         if (btnMaximize != null) {
-            btnMaximize.setOnAction(e -> {
+            btnMaximize.setOnAction(_ -> {
                 Stage stage = (Stage) btnMaximize.getScene().getWindow();
                 if (stage.isMaximized()) {
                     stage.setMaximized(false);
@@ -491,7 +490,7 @@ public class Controller implements Initializable {
         
         // Close button
         if (btnClose != null) {
-            btnClose.setOnAction(e -> {
+            btnClose.setOnAction(_ -> {
                 // Clean up resources
                 if (mediaPlayer != null) {
                     mediaPlayer.dispose();
@@ -550,7 +549,6 @@ public class Controller implements Initializable {
         });
         
         root.setOnMousePressed(event -> {
-            Stage stage = (Stage) root.getScene().getWindow();
             double mouseX = event.getX();
             double mouseY = event.getY();
             double width = root.getWidth();
