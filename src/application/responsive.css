@@ -1,0 +1,63 @@
+/* ========================================
+   RESPONSIVE STYLES FOR MUSIC PLAYER
+   ======================================== 
+   
+   NOTE: JavaFX CSS does not support media queries or conditional styles
+   based on window dimensions like web CSS does.
+   
+   Responsive behavior is implemented programmatically in Controller.java
+   using window size listeners and dynamic style application.
+   
+   ======================================== */
+
+/* Base responsive styles - Applied dynamically via Java code */
+
+.compact-mode .table-view {
+    -fx-font-size: 11px;
+}
+
+.compact-mode .button {
+    -fx-font-size: 11px;
+    -fx-padding: 8 15 8 15;
+}
+
+.compact-mode #lblCurrentSong {
+    -fx-font-size: 14px;
+}
+
+/* Standard mode - Default styles */
+.standard-mode .table-view {
+    -fx-font-size: 12px;
+}
+
+.standard-mode .button {
+    -fx-font-size: 12px;
+    -fx-padding: 9 18 9 18;
+}
+
+/* Comfortable mode - Large screens */
+.comfortable-mode .table-view {
+    -fx-font-size: 14px;
+}
+
+.comfortable-mode .button {
+    -fx-font-size: 14px;
+    -fx-padding: 12 24 12 24;
+}
+
+.comfortable-mode #lblCurrentSong {
+    -fx-font-size: 20px;
+}
+
+/* Vertical responsiveness */
+.compact-height .canvas {
+    -fx-pref-height: 60;
+}
+
+.standard-height .canvas {
+    -fx-pref-height: 80;
+}
+
+.comfortable-height .canvas {
+    -fx-pref-height: 100;
+}

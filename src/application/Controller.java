@@ -15,6 +15,8 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.Cursor;
 import javafx.stage.Stage;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
@@ -82,6 +84,9 @@ public class Controller implements Initializable {
 
     @FXML
     private HBox titleBar;
+    
+    @FXML
+    private BorderPane root;
 
     @FXML
     private Button btnMinimize;
@@ -109,6 +114,12 @@ public class Controller implements Initializable {
 
         // Set up window controls (minimize, maximize, close)
         setupWindowControls();
+        
+        // Set up window resize functionality
+        setupWindowResize();
+        
+        // Set up responsive behavior
+        setupResponsiveBehavior();
 
         // Listen for selection changes
         musicTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -380,6 +391,60 @@ public class Controller implements Initializable {
     }
 
     /**
+     * Set up responsive behavior based on window size
+     */
+    private void setupResponsiveBehavior() {
+        if (root == null) return;
+        
+        Platform.runLater(() -> {
+            Stage stage = (Stage) root.getScene().getWindow();
+            if (stage == null) return;
+            
+            // Initial size check
+            updateResponsiveStyles(stage.getWidth(), stage.getHeight());
+            
+            // Listen for width changes
+            stage.widthProperty().addListener((obs, oldVal, newVal) -> {
+                updateResponsiveStyles(newVal.doubleValue(), stage.getHeight());
+            });
+            
+            // Listen for height changes
+            stage.heightProperty().addListener((obs, oldVal, newVal) -> {
+                updateResponsiveStyles(stage.getWidth(), newVal.doubleValue());
+            });
+        });
+    }
+    
+    /**
+     * Update CSS classes based on window dimensions
+     */
+    private void updateResponsiveStyles(double width, double height) {
+        if (root == null) return;
+        
+        // Remove all size-mode classes
+        root.getStyleClass().removeAll("compact-mode", "standard-mode", "comfortable-mode");
+        root.getStyleClass().removeAll("compact-height", "standard-height", "comfortable-height");
+        
+        // Apply width-based classes
+        if (width < 800) {
+            root.getStyleClass().add("compact-mode");
+        } else if (width < 1100) {
+            root.getStyleClass().add("standard-mode");
+        } else {
+            root.getStyleClass().add("comfortable-mode");
+        }
+        
+        // Apply height-based classes
+        if (height < 600) {
+            root.getStyleClass().add("compact-height");
+        } else if (height < 750) {
+            root.getStyleClass().add("standard-height");
+        } else {
+            root.getStyleClass().add("comfortable-height");
+        }
+    }
+
+    /**
      * Set up custom window controls for undecorated window
      */
     private void setupWindowControls() {
@@ -439,6 +504,134 @@ public class Controller implements Initializable {
                 Platform.exit();
             });
         }
+    }
+    
+    private void setupWindowResize() {
+        if (root == null) return;
+        
+        final double RESIZE_BORDER = 8.0;
+        final double[] xOffset = {0};
+        final double[] yOffset = {0};
+        final boolean[] isResizing = {false};
+        final String[] resizeDirection = {""};
+        
+        root.setOnMouseMoved(event -> {
+            if (isResizing[0]) return;
+            
+            double mouseX = event.getX();
+            double mouseY = event.getY();
+            double width = root.getWidth();
+            double height = root.getHeight();
+            
+            boolean isLeft = mouseX < RESIZE_BORDER;
+            boolean isRight = mouseX > width - RESIZE_BORDER;
+            boolean isTop = mouseY < RESIZE_BORDER;
+            boolean isBottom = mouseY > height - RESIZE_BORDER;
+            
+            if (isTop && isLeft) {
+                root.setCursor(Cursor.NW_RESIZE);
+            } else if (isTop && isRight) {
+                root.setCursor(Cursor.NE_RESIZE);
+            } else if (isBottom && isLeft) {
+                root.setCursor(Cursor.SW_RESIZE);
+            } else if (isBottom && isRight) {
+                root.setCursor(Cursor.SE_RESIZE);
+            } else if (isLeft) {
+                root.setCursor(Cursor.W_RESIZE);
+            } else if (isRight) {
+                root.setCursor(Cursor.E_RESIZE);
+            } else if (isTop) {
+                root.setCursor(Cursor.N_RESIZE);
+            } else if (isBottom) {
+                root.setCursor(Cursor.S_RESIZE);
+            } else {
+                root.setCursor(Cursor.DEFAULT);
+            }
+        });
+        
+        root.setOnMousePressed(event -> {
+            Stage stage = (Stage) root.getScene().getWindow();
+            double mouseX = event.getX();
+            double mouseY = event.getY();
+            double width = root.getWidth();
+            double height = root.getHeight();
+            
+            boolean isLeft = mouseX < RESIZE_BORDER;
+            boolean isRight = mouseX > width - RESIZE_BORDER;
+            boolean isTop = mouseY < RESIZE_BORDER;
+            boolean isBottom = mouseY > height - RESIZE_BORDER;
+            
+            if (isTop && isLeft) {
+                resizeDirection[0] = "NW";
+                isResizing[0] = true;
+            } else if (isTop && isRight) {
+                resizeDirection[0] = "NE";
+                isResizing[0] = true;
+            } else if (isBottom && isLeft) {
+                resizeDirection[0] = "SW";
+                isResizing[0] = true;
+            } else if (isBottom && isRight) {
+                resizeDirection[0] = "SE";
+                isResizing[0] = true;
+            } else if (isLeft) {
+                resizeDirection[0] = "W";
+                isResizing[0] = true;
+            } else if (isRight) {
+                resizeDirection[0] = "E";
+                isResizing[0] = true;
+            } else if (isTop) {
+                resizeDirection[0] = "N";
+                isResizing[0] = true;
+            } else if (isBottom) {
+                resizeDirection[0] = "S";
+                isResizing[0] = true;
+            }
+            
+            if (isResizing[0]) {
+                xOffset[0] = event.getScreenX();
+                yOffset[0] = event.getScreenY();
+            }
+        });
+        
+        root.setOnMouseDragged(event -> {
+            if (!isResizing[0]) return;
+            
+            Stage stage = (Stage) root.getScene().getWindow();
+            double deltaX = event.getScreenX() - xOffset[0];
+            double deltaY = event.getScreenY() - yOffset[0];
+            
+            String direction = resizeDirection[0];
+            
+            if (direction.contains("E")) {
+                stage.setWidth(Math.max(stage.getMinWidth(), stage.getWidth() + deltaX));
+            }
+            if (direction.contains("W")) {
+                double newWidth = Math.max(stage.getMinWidth(), stage.getWidth() - deltaX);
+                if (newWidth >= stage.getMinWidth()) {
+                    stage.setX(stage.getX() + deltaX);
+                    stage.setWidth(newWidth);
+                }
+            }
+            if (direction.contains("S")) {
+                stage.setHeight(Math.max(stage.getMinHeight(), stage.getHeight() + deltaY));
+            }
+            if (direction.contains("N")) {
+                double newHeight = Math.max(stage.getMinHeight(), stage.getHeight() - deltaY);
+                if (newHeight >= stage.getMinHeight()) {
+                    stage.setY(stage.getY() + deltaY);
+                    stage.setHeight(newHeight);
+                }
+            }
+            
+            xOffset[0] = event.getScreenX();
+            yOffset[0] = event.getScreenY();
+        });
+        
+        root.setOnMouseReleased(event -> {
+            isResizing[0] = false;
+            resizeDirection[0] = "";
+            root.setCursor(Cursor.DEFAULT);
+        });
     }
 
     // Simple model for table rows

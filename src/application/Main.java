@@ -20,6 +20,12 @@ public class Main extends Application {
 			// Add CSS stylesheet
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
+			// Add responsive CSS stylesheet
+			URL responsiveCssUrl = getClass().getResource("responsive.css");
+			if (responsiveCssUrl != null) {
+				scene.getStylesheets().add(responsiveCssUrl.toExternalForm());
+			}
+			
 			// Set scene fill to transparent for glassmorphism
 			scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
 			
@@ -33,6 +39,13 @@ public class Main extends Application {
 			} else {
 				System.err.println("Icon resource not found: /resources/Duke256.png");
 			}
+			
+			// Set minimum window size
+			primaryStage.setMinWidth(750);
+			primaryStage.setMinHeight(500);
+			
+			// Make window resizable
+			primaryStage.setResizable(true);
 			
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Reproductor de Música - Glassmorphism");
