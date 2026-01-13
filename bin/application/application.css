@@ -39,33 +39,36 @@
     -fx-background-color: transparent;
     -fx-text-fill: #202020;
     -fx-background-radius: 6;
-    -fx-padding: 0;
-    -fx-font-size: 18px;
-    -fx-font-weight: normal;
-    -fx-border-color: transparent;
-    -fx-border-width: 0;
-    -fx-border-radius: 6;
+    -fx-font-size: 16px;
     -fx-cursor: hand;
-    -fx-font-family: "Segoe UI", "Segoe UI Symbol", "Arial Unicode MS", sans-serif;
-    -fx-alignment: center;
 }
 
-.window-button:hover {
-    -fx-background-color: rgba(0, 0, 0, 0.06);
+/* Minimize button hover - Gray */
+#btnMinimize:hover {
+    -fx-background-color: rgba(128, 128, 128, 0.15);
 }
 
-.window-button:pressed {
-    -fx-background-color: rgba(0, 0, 0, 0.08);
+#btnMinimize:pressed {
+    -fx-background-color: rgba(128, 128, 128, 0.25);
 }
 
-/* Close button - special red hover */
-.close-button:hover {
-    -fx-background-color: #c42b1c;
+/* Maximize button hover - Gray */
+#btnMaximize:hover {
+    -fx-background-color: rgba(128, 128, 128, 0.15);
+}
+
+#btnMaximize:pressed {
+    -fx-background-color: rgba(128, 128, 128, 0.25);
+}
+
+/* Close button hover - Red */
+#btnClose:hover {
+    -fx-background-color: #e81123;
     -fx-text-fill: white;
 }
 
-.close-button:pressed {
-    -fx-background-color: #a52313;
+#btnClose:pressed {
+    -fx-background-color: #c50b1a;
     -fx-text-fill: white;
 }
 
